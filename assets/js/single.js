@@ -8,6 +8,10 @@ var getRepoIssues = function (repo) {
     if (response.ok) {
       response.json().then(function (data) {
         displayIssues(data);
+
+        if (response.headers.get('Link')) {
+          console.log('repo has more than 30 issues');
+        }
       });
     } else {
       alert('There was a problem with your request!');
@@ -23,17 +27,18 @@ var displayIssues = function (issues) {
     issueEl.classList = 'list-item flex-row justify-space-between align-center';
     issueEl.setAttribute('href', issues[i].html_url);
     issueEl.setAttribute('target', '_blank');
+    console.log('issue11', issueEl);
 
     // create span to hold issue title
     var titleEl = document.createElement('span');
     titleEl.textContent = issues[i].title;
-
+    console.log('title', titleEl);
     // append to container
     issueEl.appendChild(titleEl);
 
     // create a type element
     var typeEl = document.createElement('span');
-
+    console.log('typee', typeEl);
     // check if issue is an actual issue or a pull request
     if (issues[i].pull_request) {
       typeEl.textContent = '(Pull request)';
@@ -43,6 +48,7 @@ var displayIssues = function (issues) {
 
     // append to container
     issueEl.appendChild(typeEl);
+    console.log(issueEl);
     issueContainerEl.appendChild(issueEl);
   }
 };
